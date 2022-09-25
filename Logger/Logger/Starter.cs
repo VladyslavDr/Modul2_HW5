@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.IO;
 
 namespace Logger
@@ -26,6 +27,8 @@ namespace Logger
                             _actions.Method3();
                             break;
                     }
+
+                    Thread.Sleep(1000);
                 }
             }
             catch (BusinessException bEx)
@@ -34,7 +37,7 @@ namespace Logger
             }
             catch (Exception ex)
             {
-                 _logger.Log(LogType.Warning, $"Action failed by reason : {ex}");
+                _logger.Log(LogType.Warning, $"Action failed by reason : {ex}");
             }
         }
     }

@@ -27,6 +27,7 @@ namespace Logger
         public void Log(LogType logType, string textLog)
         {
             _textLog.Append($"{DateTime.Now}: {logType}: {textLog}\n");
+            FileService.RecordingToFile(DatabaseLogs.ToString());
         }
     }
 }
