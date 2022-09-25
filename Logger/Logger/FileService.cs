@@ -4,23 +4,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Logger
 {
     public static class FileService
     {
         private static int _count = 0;
-        private static string _path = "log";
 
-        // private static FileInfo[] _info = new DirectoryInfo(_path).GetFiles("*.txt");
         private static FileInfo[] _info = new FileInfo[3];
 
         public static void RecordingToFile(string messege)
         {
-            DateTime time = DateTime.Now;
-            string fileName = " " + time.ToString("hh.mm.ss") + " " + time.ToString("dd.MM.yyyy") + ".txt";
+            var time = DateTime.Now;
 
-            using (var sw = new StreamWriter(_path + fileName, false))
+            var configService = new ConfigurationsService(time, time.ToString("hh.mm.ss") + " " + time.ToString("dd.MM.yyyy") + ".txt", "log");
+
+            var json = JsonConvert.SerializeObject(configService);
+            File.WriteAllText("config.json", json);
+
+            var configFile = File.ReadAllText("config.json");
+            var config = JsonConvert.DeserializeObject<ConfigurationsService>(configFile);
+
+            string path = config.Path;
+            string fileName = config.FileName;
+
+            using (var sw = new StreamWriter(path + fileName, false))
             {
                 sw.WriteLine(messege);
 
@@ -34,7 +43,7 @@ namespace Logger
                     _info[_count].Delete();
                 }
 
-                _info[_count++] = new FileInfo(_path + fileName);
+                _info[_count++] = new FileInfo(path + fileName);
             }
         }
     }
