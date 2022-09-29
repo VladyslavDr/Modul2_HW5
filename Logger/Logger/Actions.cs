@@ -20,16 +20,16 @@ namespace Logger
             return true;
         }
 
-        public BusinessException Method2()
+        public void Method2()
         {
             _logger.Log(LogType.Warning, "Skipped logic in method");
-            return new BusinessException("Skipped logic in method");
+            throw new BusinessException("Skipped logic in method");
         }
 
-        public Exception Method3()
+        public void Method3()
         {
             _logger.Log(LogType.Error, "I broke a logic");
-            return new Exception("I broke a logic");
+            throw new Exception("I broke a logic");
         }
     }
 }

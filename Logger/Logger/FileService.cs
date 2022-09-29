@@ -11,21 +11,22 @@ namespace Logger
     public static class FileService
     {
         private static int _count = 0;
-
         private static FileInfo[] _info = new FileInfo[3];
 
         public static void RecordingToFile(string messege)
         {
             var time = DateTime.Now;
-
             var configService = new ConfigurationsService(time, time.ToString("hh.mm.ss") + " " + time.ToString("dd.MM.yyyy") + ".txt", "log");
 
+            // сереализ объект
             var json = JsonConvert.SerializeObject(configService);
             File.WriteAllText("config.json", json);
 
+            // десериал. объект
             var configFile = File.ReadAllText("config.json");
             var config = JsonConvert.DeserializeObject<ConfigurationsService>(configFile);
 
+            // вытащил данные
             string path = config.Path;
             string fileName = config.FileName;
 

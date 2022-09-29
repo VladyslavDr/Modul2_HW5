@@ -11,9 +11,9 @@ namespace Logger
 
         public void Run()
         {
-            try
+            for (int i = 0; i < 100; i++)
             {
-                for (int i = 0; i < 100; i++)
+                try
                 {
                     switch (new Random().Next(1, 4))
                     {
@@ -27,17 +27,17 @@ namespace Logger
                             _actions.Method3();
                             break;
                     }
-
-                    Thread.Sleep(1000);
                 }
-            }
-            catch (BusinessException bEx)
-            {
-                _logger.Log(LogType.Warning, $"Action got this custom Exception : {bEx.Message}");
-            }
-            catch (Exception ex)
-            {
-                _logger.Log(LogType.Warning, $"Action failed by reason : {ex}");
+                catch (BusinessException bEx)
+                {
+                    _logger.Log(LogType.Warning, $"Action got this custom Exception : {bEx.Message}");
+                }
+                catch (Exception ex)
+                {
+                    _logger.Log(LogType.Warning, $"Action failed by reason : {ex}");
+                }
+
+                Thread.Sleep(1000);
             }
         }
     }
